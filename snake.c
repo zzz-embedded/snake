@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <inttypes.h>
 #include <time.h>
+#include <conio.h>
 
 enum direction
 {
@@ -132,22 +133,26 @@ void map_draw(struct snake *s)
         printf("\n");
     }
     printf("\n");
+    printf("\033[H");
 }
 
 void snake_ctrl(struct snake *s)
 {
     char temp;
-    scanf(" %c", &temp);
-    switch (temp)
+    if (_kbhit())
     {
-    case 'w':s->head->dir = UP;break;
-    case 's':s->head->dir = DOWN;break;
-    case 'a':s->head->dir = LEFT;break;
-    case 'd':s->head->dir = RIGHT;break;
-    case 'W':s->head->dir = UP;break;
-    case 'S':s->head->dir = DOWN;break;
-    case 'A':s->head->dir = LEFT;break;
-    case 'D':s->head->dir = RIGHT;break;
+        temp = _getch();
+        switch (temp)
+        {
+        case 'w':s->head->dir = UP;break;
+        case 's':s->head->dir = DOWN;break;
+        case 'a':s->head->dir = LEFT;break;
+        case 'd':s->head->dir = RIGHT;break;
+        case 'W':s->head->dir = UP;break;
+        case 'S':s->head->dir = DOWN;break;
+        case 'A':s->head->dir = LEFT;break;
+        case 'D':s->head->dir = RIGHT;break;
+        }
     }
     snake_move(s);
     snake_eat(s);
@@ -174,10 +179,26 @@ struct food *food_gen(struct snake *s)
     return food;
 }
 
+void game_init()
+{
+    printf("\033[?25l");
+    printf("\033[2J");
+}
+
 void game_over()
 {
+    printf("\033[?25l");
+    printf("\033[2J");
+    printf("\033[?25h");
     printf("Game Over\n");
+    sleep(2);
     exit(0);
+}
+
+void game_start()
+{
+    printf("Game Start\n");
+    sleep(2);
 }
 
 void print_snake(struct snake *s)
@@ -195,12 +216,15 @@ void print_snake(struct snake *s)
 int main()
 {
     struct snake *s = snake_create();
+    s->head->dir = RIGHT;
     f = (struct food *)malloc(sizeof(struct food ));
     f = food_gen(s);
-    snake_eat(s);
+    game_init();
+    game_start();
     while (1)
     {
         snake_ctrl(s);
+        usleep(250000);
     }
     return 0;
 }
