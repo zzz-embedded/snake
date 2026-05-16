@@ -82,7 +82,7 @@ void snake_eat(struct snake *s)
             case RIGHT:n->x = n->prev->x - 1;n->y = n->prev->y;break;
         }
         s->length++;
-        f = food_gen();
+        f = food_gen(s);
     }
 }
 
@@ -105,13 +105,7 @@ void snake_move(struct snake *s)
             game_over();
         cur = cur->next;
     }
-    s->head->dir = s->head->prev->dir;
-    cur = s->head->next;
-    for (uint8_t i = 0; i < s->length - 2; i++)
-    {
-        cur->next->dir = cur->dir;
-        cur = cur->next;
-    }
+    s->head->dir = s->head->next->dir;
 }
 
 void map_draw(struct snake *s)
@@ -129,11 +123,11 @@ void map_draw(struct snake *s)
         for (uint8_t j = 0; j < 20; j++)
         {
             if (map[i][j] == 1)
-                printf("#  ", map[i][j]);
+                printf("#  ");
             else if (map[i][j] == 2)
-                printf("@  ", map[i][j]);
+                printf("@  ");
             else
-                printf(".  ", map[i][j]);
+                printf(".  ");
         }
         printf("\n");
     }
