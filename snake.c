@@ -109,7 +109,7 @@ void snake_move(struct snake *s)
     s->head->dir = s->head->next->dir;
 }
 
-void map_draw(struct snake *s)
+void map_draw(const struct snake *s)
 {
     struct node *cur = s->head;
     memset(map, 0, sizeof(map));
@@ -138,20 +138,20 @@ void map_draw(struct snake *s)
 
 void snake_ctrl(struct snake *s)
 {
-    char temp;
     if (_kbhit())
     {
-        temp = _getch();
+        char temp = _getch();
         switch (temp)
         {
-        case 'w':s->head->dir = UP;break;
-        case 's':s->head->dir = DOWN;break;
-        case 'a':s->head->dir = LEFT;break;
-        case 'd':s->head->dir = RIGHT;break;
-        case 'W':s->head->dir = UP;break;
-        case 'S':s->head->dir = DOWN;break;
-        case 'A':s->head->dir = LEFT;break;
-        case 'D':s->head->dir = RIGHT;break;
+            case 'w':s->head->dir = UP;break;
+            case 's':s->head->dir = DOWN;break;
+            case 'a':s->head->dir = LEFT;break;
+            case 'd':s->head->dir = RIGHT;break;
+            case 'W':s->head->dir = UP;break;
+            case 'S':s->head->dir = DOWN;break;
+            case 'A':s->head->dir = LEFT;break;
+            case 'D':s->head->dir = RIGHT;break;
+            default:break;
         }
     }
     snake_move(s);
@@ -159,7 +159,7 @@ void snake_ctrl(struct snake *s)
     map_draw(s);
 }
 
-struct food *food_gen(struct snake *s)
+struct food *food_gen(const struct snake *s)
 {
     struct food *food = f;
     uint8_t regen = 0;
@@ -201,7 +201,7 @@ void game_start()
     sleep(2);
 }
 
-void print_snake(struct snake *s)
+void print_snake(const struct snake *s)
 {
     if (s == NULL)
         return ;
@@ -217,7 +217,7 @@ int main()
 {
     struct snake *s = snake_create();
     s->head->dir = RIGHT;
-    f = (struct food *)malloc(sizeof(struct food ));
+    f = (struct food *)malloc(sizeof(struct food));
     f = food_gen(s);
     game_init();
     game_start();
