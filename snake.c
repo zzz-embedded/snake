@@ -36,6 +36,7 @@ struct food
 };
 
 uint8_t map[20][20];
+uint8_t game_score = 1;
 struct food *f = NULL;
 
 struct food *food_gen();
@@ -83,6 +84,7 @@ void snake_eat(struct snake *s)
             case RIGHT:n->x = n->prev->x - 1;n->y = n->prev->y;break;
         }
         s->length++;
+        game_score = s->length;
         f = food_gen(s);
     }
 }
@@ -191,7 +193,8 @@ void game_over()
     printf("\033[2J");
     printf("\033[?25h");
     printf("Game Over\n");
-    sleep(2);
+    printf("Game Score:%d\n", game_score - 1);
+    sleep(3);
     exit(0);
 }
 
