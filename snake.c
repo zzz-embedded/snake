@@ -143,14 +143,14 @@ void snake_ctrl(struct snake *s)
         char temp = _getch();
         switch (temp)
         {
-            case 'w':s->head->dir = UP;break;
-            case 's':s->head->dir = DOWN;break;
-            case 'a':s->head->dir = LEFT;break;
-            case 'd':s->head->dir = RIGHT;break;
-            case 'W':s->head->dir = UP;break;
-            case 'S':s->head->dir = DOWN;break;
-            case 'A':s->head->dir = LEFT;break;
-            case 'D':s->head->dir = RIGHT;break;
+            case 'w':if (s->head->dir != DOWN) s->head->dir = UP;break;
+            case 's':if (s->head->dir != UP) s->head->dir = DOWN;break;
+            case 'a':if (s->head->dir != RIGHT) s->head->dir = LEFT;break;
+            case 'd':if (s->head->dir != LEFT) s->head->dir = RIGHT;break;
+            case 'W':if (s->head->dir != DOWN) s->head->dir = UP;break;
+            case 'S':if (s->head->dir != UP) s->head->dir = DOWN;break;
+            case 'A':if (s->head->dir != RIGHT) s->head->dir = LEFT;break;
+            case 'D':if (s->head->dir != LEFT) s->head->dir = RIGHT;break;
             default:break;
         }
     }
